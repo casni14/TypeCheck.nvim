@@ -1,6 +1,6 @@
 # VibeCheck.nvim
 
-A plugin to practice your typing on code that actually matters: your own. Instead of random words, you type through the vibe code you never bothered to read. Or go big and type the Neovim manual — see you on the other side.
+A plugin to practice your typing on code that actually matters: your own. Instead of random words, you type through the vibe code you never bothered to read. Or go big and type the Neovim manual. Happy typing!
 
 ## Features
 
