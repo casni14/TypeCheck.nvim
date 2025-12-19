@@ -7,6 +7,10 @@ local apply_indent
 local progress_cache = {}
 local progress_cache_path = vim.fn.stdpath("state") .. "/typecheck_progress.json"
 
+local default_config = {
+  auto_skip_separators = true,
+}
+
 local function load_progress_cache()
   if vim.fn.filereadable(progress_cache_path) ~= 1 then return end
   local ok, lines = pcall(vim.fn.readfile, progress_cache_path)
@@ -77,9 +81,7 @@ local state = {
     timer = nil,
   },
   progress_mark_id = nil,
-  config = {
-    auto_skip_separators = true, -- New config option
-  }
+  config = vim.deepcopy(default_config),
 }
 
 -- Highlights
@@ -343,6 +345,10 @@ local function start_timer()
 end
 
 load_progress_cache()
+
+function M.setup(opts)
+  state.config = vim.tbl_deep_extend("force", default_config, opts or {})
+end
 
 function M.start()
   -- 1. Get current buffer content
@@ -633,14 +639,14 @@ function M.start()
   api.nvim_create_autocmd("BufWriteCmd", {
     buffer = state.buf,
     callback = function()
-      M.save()
+      M.save({ notify = true })
     end,
   })
   
   api.nvim_create_autocmd("BufWipeout", {
     buffer = state.buf,
     callback = function()
-      M.save()
+      M.save({ notify = false })
       M.cleanup()
     end,
   })
@@ -648,7 +654,9 @@ function M.start()
   vim.bo[state.buf].modified = false
 end
 
-function M.save()
+function M.save(opts)
+  opts = opts or {}
+  local notify = opts.notify ~= false
   if not state.orig_buf then return end
   if not state.buf or not api.nvim_buf_is_valid(state.buf) then return end
   local lines = api.nvim_buf_get_lines(state.buf, 0, -1, false)
@@ -676,7 +684,9 @@ function M.save()
   persist_progress_cache()
   
   vim.bo[state.buf].modified = false
-  vim.notify("TypeCheck progress saved!", vim.log.levels.INFO)
+  if notify then
+    vim.notify("TypeCheck progress saved!", vim.log.levels.INFO)
+  end
 end
 
 function M.cleanup()

@@ -17,6 +17,9 @@ A plugin to practice your typing on code that actually matters: your own. Instea
 {
   "casni14/TypeCheck.nvim",
   cmd = { "TypeCheck", "TypeCheckStats" },
+  opts = {
+    auto_skip_separators = true, ---  specifically to skip the seperators in help files
+  },
 }
 ```
 
@@ -35,6 +38,20 @@ See saved stats with:
 ```
 :TypeCheckStats
 ```
+
+## Configuration
+
+Defaults:
+
+```lua
+require("typecheck").setup({
+  auto_skip_separators = true,
+})
+```
+
+Options:
+
+- `auto_skip_separators` (boolean): skip lines made of repeating symbols while navigating.
 
 ## Help
 
