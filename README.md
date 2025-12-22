@@ -60,6 +60,7 @@ Plug 'casni14/TypeCheck.nvim'
 lua << EOF
 require("typecheck").setup({
   auto_skip_separators = true,
+  daily_goal_minutes = 30,
 })
 EOF
 ```
@@ -80,6 +81,8 @@ Open any file you want to practice and run:
 
 Quit the practice window with `q`.
 
+Leading indentation is kept aligned with the source line by default so the ghost text stays fixed.
+
 See saved stats with:
 
 ```
@@ -93,6 +96,8 @@ Defaults:
 ```lua
 require("typecheck").setup({
   auto_skip_separators = true,
+  daily_goal_minutes = 30,
+  auto_indent = true,
 })
 ```
 
@@ -100,6 +105,8 @@ Options:
 
 - `auto_skip_separators` (boolean): skip lines made of repeating symbols while navigating.
 - `history_size` (number): max number of recent sessions to keep for stats trends.
+- `daily_goal_minutes` (number): daily active typing goal shown in stats (minutes).
+- `auto_indent` (boolean): keep typed indentation aligned with the source line.
 
 ## Help
 

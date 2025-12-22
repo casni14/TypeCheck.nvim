@@ -5,6 +5,7 @@ CONTENTS                                                   *typecheck-contents*
 
 Introduction                                               |typecheck-intro|
 Commands                                                   |typecheck-commands|
+Options                                                    |typecheck-options|
 Notes                                                      |typecheck-notes|
 
 ==============================================================================
@@ -24,12 +25,25 @@ COMMANDS                                                *typecheck-commands*
         Show saved session stats and Neovim manual progress.
 
 ==============================================================================
+OPTIONS                                                *typecheck-options*
+
+Configuration keys for `require("typecheck").setup({ ... })`:
+
+auto_skip_separators  (boolean)  Skip separator lines while navigating.
+history_size          (number)   Max number of recent sessions kept for stats.
+daily_goal_minutes    (number)   Daily active typing goal shown in stats (minutes).
+auto_indent           (boolean)  Keep typed indentation aligned with source lines.
+
+==============================================================================
 NOTES                                                     *typecheck-notes*
 
 Progress is stored in: >
   stdpath("state")/typecheck_progress.json
 <
 Saved sessions resume at the next character.
+
+Leading indentation is kept aligned with the source line by default; extra
+leading whitespace is stripped to prevent shifting the ghost text.
 
 ==============================================================================
 vim:tw=78:ft=help:norl:
